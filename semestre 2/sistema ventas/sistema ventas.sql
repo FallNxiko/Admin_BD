@@ -140,8 +140,15 @@ ADD CONSTRAINT fk_detalle_ventas_productos
 FOREIGN KEY (producto_id) REFERENCES
 productos(id_producto);
 
+ALTER TABLE usuarios
+CHANGE COLUMN id_tipo_usuario id_usuario int;
+
+ALTER TABLE usuarios
+CHANGE COLUMN nombre_tipo nombre_usuario varchar(100);
 
 
+ALTER TABLE `sistema_ventas_4e`.`usuarios` 
+CHANGE COLUMN `Password` `password` VARCHAR(15) NOT NULL AFTER `nombre_usuario`;
 
 
 INSERT INTO usuarios (
@@ -156,13 +163,13 @@ VALUES(
     NULL
 );
 
+
 INSERT INTO tipo_usuarios (
     nombre_tipo,
     descripcion_tipo,
     created_by,
     updated_by
 )
-
 VALUES (
     'administrador',
     'Accede a todas las funciones del sistema, incluida la administración de usuarios.',
@@ -232,8 +239,7 @@ VALUES (
 );
 
 
-INSERT productos (
-nombre_producto, precio, stock, created_by, updated_by)
+INSERT INTO productos (nombre_producto, precio, stock, created_by, updated_by)
 
 VALUES ( 'Gabinete mATX 230W G08', -- NOMBRE
     20.590, -- PRECIO
