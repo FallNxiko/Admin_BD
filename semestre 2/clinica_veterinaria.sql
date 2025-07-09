@@ -1,9 +1,10 @@
+
 create database clinica_veterinaria;
 use clinica_veterinaria;
-create table personas(-- 1
-id_persona INT AUTO_INCREMENT PRIMARY KEY, 
-nombre VARCHAR(100) NOT NULL 
-CHECK (CHAR_LENGTH(nombre) >= 3 AND nombre REGEXP '^[A-Za-z ]+$'), 
+create table dueños(-- 1
+id_dueño INT AUTO_INCREMENT PRIMARY KEY, 
+nombre_dueño varchar(50) not null 
+CHECK (CHAR_LENGTH(nombre_dueño) >= 3 AND nombre_dueño REGEXP '^[A-Za-z ]+$'),
 rut varchar(25) unique not null,
 correo VARCHAR(100) UNIQUE,
 direccion varchar(200),
@@ -38,8 +39,8 @@ CHECK (CHAR_LENGTH(nombre_usuario) >= 3 AND nombre_usuario REGEXP '^[A-Za-z ]+$'
 password varchar(100) not null,
 id_tipo_usuario INT,
 foreign key(id_tipo_usuario) references tipo_usuarios(id_tipo_usuario),
-id_persona int,
-foreign key (id_persona) references personas(id_persona),
+id_dueño int,
+foreign key (id_dueño) references dueños(id_dueño),
 -- Campos de auditoría
 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -49,21 +50,7 @@ updated_by INT,
 deleted BOOLEAN DEFAULT FALSE 
 );
 
-create table dueños(-- 4
-id_dueño int primary key auto_increment,
-username varchar(100),
-nombre_dueño varchar(50) not null 
-CHECK (CHAR_LENGTH(nombre_dueño) >= 3 AND nombre_dueño REGEXP '^[A-Za-z ]+$'),
-id_persona int,
-foreign key (id_persona) references personas(id_persona),
--- campos de auditoria
-created_at datetime default current_timestamp,
-updated_at datetime default current_timestamp 
-on update current_timestamp,
-created_by int,
-updated_by int,
-deleted boolean default false
-);
+
 
 create table tipo_mascotas(-- 5
 id_tipo_mascota int primary key auto_increment,
@@ -99,7 +86,7 @@ nombre_mascota varchar(100) not null
 CHECK (CHAR_LENGTH(nombre_mascota) >= 3 AND nombre_mascota REGEXP '^[A-Za-z ]+$'),
 comportamiento varchar(300) not null,
 fecha_nacimiento date not null,
-genero varchar(50) check(genero in ('macho', 'hembra')),
+sexo varchar(50) CHECK(sexo in ('macho', 'hembra')),
 id_dueño int,
 foreign key (id_dueño) references dueños(id_dueño),
 id_raza int,
@@ -135,6 +122,8 @@ id_diagnostico int,
 foreign key (id_diagnostico) references diagnosticos(id_diagnostico),
 id_mascota int,
 foreign key (id_mascota) references mascotas(id_mascota),
+id_usuario int,
+foreign key (id_usuario) references usuarios(id_usuario),
 -- Campos de auditoría
 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
